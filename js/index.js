@@ -110,4 +110,75 @@ console.log('Por referencia 2',obj2.value);*/
 //Añadir atributos y métodos nuevos a un objeto.
 const student3 = new Student("Ramiro Hdz", 6);
 student3.id = 1;
-delete student3.greet;
+//delete student3.greet;
+
+const property_name = 'otra-cosa';//Si la propiedad tiene un -, solo puede ser accedida desde corchetes.
+student3[property_name] = 'algo';
+console.log(student3[property_name]);
+
+//Se pueden iterar los elementos de un objeto
+console.log('---------Elementos de student3')
+for (key in student3) {
+    //console.log(key, student3[key]);
+}
+
+console.log('---------Solo las propiedades de student3')
+for (key in student3) {
+    if (typeof student3[key] !== 'function') {
+        //console.log(key, student3[key]);
+    }
+}
+
+const keys = Object.keys(student3);
+console.log(keys);
+
+//Verificar si cierto elemento se encuentra en el objeto
+if ('id' in student2) {
+    console.log("Student2 tiene id.");
+}
+
+//-------------MANEJO DE ACCESO A PROPIEDADES-------------------//
+function StudentWithProperties(name_std, semester) {
+    this.name_std = name_std;
+    this.semester = semester;
+    //this.pin = '1234'
+    let pin = '1234'
+    this.recent_subjects = [];
+    this.greet = function() {
+        let algo = 1;
+        console.log(algo)
+        console.log("Hola", name_std);
+    }
+
+    this.hash = function() {
+        let s = pin.split('');
+        let num = s.map(Number)
+        const helpSum = (acc,curr) => acc+curr;
+        /*const helpSum = function(acc,curr) {
+            return acc+curr;
+        }*/
+        let sum = num.reduce(helpSum, 0)
+        return sum;
+    }
+
+    this.getPin = function() {
+        return pin;
+    }
+
+    Object.defineProperty(this, 'pin', {
+        get: function() {
+            return pin;
+        },
+        set: function(value) {
+            if (!value) {
+                throw new Error('Valor no válido.');
+            }
+            pin = value;
+        }
+    });
+}
+
+const stdproperties = new StudentWithProperties('Bill Ramses', 7);
+//console.log('pin', stdproperties.getPin())
+console.log('pin', stdproperties.pin)
+console.log('hash', stdproperties.hash());
