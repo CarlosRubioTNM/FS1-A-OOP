@@ -182,3 +182,44 @@ const stdproperties = new StudentWithProperties('Bill Ramses', 7);
 //console.log('pin', stdproperties.getPin())
 console.log('pin', stdproperties.pin)
 console.log('hash', stdproperties.hash());
+
+//-----------------PROTOTYPES-----------------------------//
+/*const studentObj = {
+    name_std : 'William Pérez',
+    greet: function() {
+        console.log('Hola', this.name_std)
+    },
+    toString: function() { //Sobreescribir propiedades o métodos se llama shadowing
+        return this.name_std
+    }
+};
+studentObj.greet();*/
+
+const personPrototype = {
+    name_std : 'William Pérez',
+    place_birth: 'Chihuahua',
+    greet: function() {
+        console.log('Hola', this.name_std, 'de', this.place_birth)
+    }
+};
+
+function StudentConstructor(name_std) {
+    this.grade = 98;
+    this.semester = 4;
+    //this.pin = '1234'
+    let pin = '1234'
+    this.recent_subjects = [];
+    this.toString = function() { //Sobreescribir propiedades o métodos se llama shadowing
+        return this.name_std
+    };
+}
+
+StudentConstructor.prototype = personPrototype;
+StudentConstructor.prototype.constructor = StudentConstructor;
+
+const student4 = new StudentConstructor('No se');
+student4.greet()
+
+//Revisar si un objeto tiene cierta propiedad
+console.log('El objeto tiene name_std', Object.hasOwn(student4,'name_std'))
+console.log('El objeto tiene greet', Object.hasOwn(student4,'greet'))
