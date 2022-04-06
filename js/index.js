@@ -31,7 +31,7 @@ function createStudent(name_std, semester) {
     }
 }
 const student1 = createStudent("Fulano Dex", 6);
-student1.greet();
+//student1.greet();
 
 //Constructor Function
 function Student(name_std, semester) {
@@ -46,7 +46,7 @@ const student2 = new Student("Perengano Díaz", 8);
 /*1.-Se crea un nuevo objeto {}.
 2.- Asigna a this a este objeto.
 3.- Regresar el objeto creado.*/
-student2.greet();
+//student2.greet();
 
 /*new Object() desde {}
   new Number() desde 1,2,3
@@ -63,7 +63,7 @@ this.greet = function() {
 }
 `);
 const studentAnother = new StudentAnother('Zutano Fox', 1);
-studentAnother.greet();
+//studentAnother.greet();
 //Otras maneras de generar objetos en lugar del operador new
 Student.call({}, 'Macario Ross', 3);
 Student.apply({}, ['Macario Ross2', 4]);
@@ -114,15 +114,15 @@ student3.id = 1;
 
 const property_name = 'otra-cosa';//Si la propiedad tiene un -, solo puede ser accedida desde corchetes.
 student3[property_name] = 'algo';
-console.log(student3[property_name]);
+//console.log(student3[property_name]);
 
 //Se pueden iterar los elementos de un objeto
-console.log('---------Elementos de student3')
+//console.log('---------Elementos de student3')
 for (key in student3) {
     //console.log(key, student3[key]);
 }
 
-console.log('---------Solo las propiedades de student3')
+//console.log('---------Solo las propiedades de student3')
 for (key in student3) {
     if (typeof student3[key] !== 'function') {
         //console.log(key, student3[key]);
@@ -130,11 +130,11 @@ for (key in student3) {
 }
 
 const keys = Object.keys(student3);
-console.log(keys);
+//console.log(keys);
 
 //Verificar si cierto elemento se encuentra en el objeto
 if ('id' in student2) {
-    console.log("Student2 tiene id.");
+    //console.log("Student2 tiene id.");
 }
 
 //-------------MANEJO DE ACCESO A PROPIEDADES-------------------//
@@ -180,8 +180,8 @@ function StudentWithProperties(name_std, semester) {
 
 const stdproperties = new StudentWithProperties('Bill Ramses', 7);
 //console.log('pin', stdproperties.getPin())
-console.log('pin', stdproperties.pin)
-console.log('hash', stdproperties.hash());
+//console.log('pin', stdproperties.pin)
+//console.log('hash', stdproperties.hash());
 
 //-----------------PROTOTYPES-----------------------------//
 /*const studentObj = {
@@ -218,8 +218,59 @@ StudentConstructor.prototype = personPrototype;
 StudentConstructor.prototype.constructor = StudentConstructor;
 
 const student4 = new StudentConstructor('No se');
-student4.greet()
+//student4.greet();
 
 //Revisar si un objeto tiene cierta propiedad
-console.log('El objeto tiene name_std', Object.hasOwn(student4,'name_std'))
-console.log('El objeto tiene greet', Object.hasOwn(student4,'greet'))
+//console.log('El objeto tiene grade', Object.hasOwn(student4,'grade'));
+//console.log('El objeto tiene greet', Object.hasOwn(student4,'greet'));
+
+
+//---------------------CLASES SON ES6----------------//
+class Person {
+    //Atributos
+    name_std; //Opcional porque el constructor lo puede asignar
+              //Es mejor ponerlo para legibilidad del código
+    place_birth;
+    constructor(name_std, place_birth) { //Crea objeto vacío, asigna this al objeto, asigna valores y devuelve objeto.
+        this.name_std = name_std;
+        this.place_birth = place_birth;
+    }
+
+    greet() {
+        console.log('Hola', this.name_std, 'de', this.place_birth);
+    }
+}
+
+//const persona1 = new Person('Perengano Rex', 'Chihuahua');
+//persona1.greet();
+
+class ClassStudent extends Person {
+    grade;
+    semester;
+    latest_subjects = [];
+    #_pin = '1234'; //El # al principio indica una propiedad privada
+
+    constructor(name_std, place_birth, grade, semester) {
+        super(name_std,place_birth);//Si hay herencia, se debe llamar al constructor de la clase padre.
+        this.grade = grade;
+        this.semester = semester;
+    }
+
+    get pin() {
+        console.log('Desencripando pin...');
+        return this.#_pin;
+    }
+
+    set pin(pin) {
+        if (pin === '') {
+            throw new Error('Valor no válido.');
+        }
+        this.#_pin = pin;
+    }
+
+    static all_nighter() {
+        console.log('Se está desvelando...');
+    }
+}
+
+const student5 = new ClassStudent('Bobby Pulido', 'Texas',90,5);
