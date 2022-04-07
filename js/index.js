@@ -274,3 +274,21 @@ class ClassStudent extends Person {
 }
 
 const student5 = new ClassStudent('Bobby Pulido', 'Texas',90,5);
+
+class Teacher extends Person {
+    subjects;
+    contract;
+
+    constructor(name_std,place_birth,subjects,contract) {
+        super(name_std,place_birth);
+        this.subjects = subjects;
+        this.contract = contract;
+    }
+
+
+    evaluar = function(student) {
+        student.grade = Math.random()*100;
+    }
+}
+
+const teacher = new Teacher('Ramiro Cárdenas', 'Cd Juárez',['Prog. Front End'],false);
